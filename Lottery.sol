@@ -3,8 +3,8 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery{
     
-    uint lotteryTime = 8;
-    uint purchaseTime = 4;
+    uint lotteryTime = 80;
+    uint purchaseTime = 40;
     
     uint lotteryGenesis;
     address winnerAddress;
@@ -35,7 +35,7 @@ contract Lottery{
         if(msg.value!=8 finney && msg.value!=4 finney && msg.value!=2 finney){
             revert();
         }else{
-            if( block.number - lotteryGenesis == lotteryTime){
+            if( block.number - lotteryGenesis >= lotteryTime){
                 lotteryGenesis = block.number;
                 winner = 0;
                 lotteryCounter += 1;
@@ -71,13 +71,11 @@ contract Lottery{
             winnerReimbursment[msg.sender] = winnerReimbursment[msg.sender]- amount;
             res = "Withdraw is Successful";
         }
-        if( block.number - lotteryGenesis == lotteryTime ){
+        if( block.number - lotteryGenesis >= lotteryTime ){
             // lottery time control
             lotteryGenesis = block.number;
             lotteryCounter += 1;
             winner = 0;
-
-
         }
         return res;
     }
@@ -103,7 +101,7 @@ contract Lottery{
                 
             }
             // bu if revealin son adimi winner belirleme
-           if( block.number - lotteryGenesis == lotteryTime ){
+           if( block.number - lotteryGenesis >= lotteryTime ){
                 lotteryGenesis = block.number;
                //TODO is_valid false olmayan ticketlar arasinda Nleri XOR yapacaksin ve withdraw icin onay vereceksin
                 winnerAddress = ticketOwner[winner];

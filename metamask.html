@@ -4,80 +4,95 @@
 	<title>Browser Transactions</title>
 	<script>
 		var test_abi = [
-		{
-			"constant": false,
-			"inputs": [
+	{
+		"constant": false,
+		"inputs": [
 			{
 				"name": "val",
 				"type": "bytes32"
 			}
-			],
-			"name": "purchase",
-			"outputs": [],
-			"payable": true,
-			"stateMutability": "payable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [
+		],
+		"name": "purchase",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
 			{
 				"name": "N",
 				"type": "uint256"
 			}
-			],
-			"name": "reveal",
-			"outputs": [],
-			"payable": true,
-			"stateMutability": "payable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "constructor"
-		},
-		{
-			"constant": false,
-			"inputs": [],
-			"name": "withdraw",
-			"outputs": [],
-			"payable": true,
-			"stateMutability": "payable",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "getBalance",
-			"outputs": [
+		],
+		"name": "reveal",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "getBlockNumber",
-			"outputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getBlockNumber",
+		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
 			{
 				"name": "N",
 				"type": "uint256"
@@ -86,92 +101,120 @@
 				"name": "adr",
 				"type": "address"
 			}
-			],
-			"name": "getHashValue",
-			"outputs": [
+		],
+		"name": "getHashValue",
+		"outputs": [
 			{
 				"name": "",
 				"type": "bytes32"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "getLotteryGenesis",
-			"outputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getLotteryCounter",
+		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "getTimeInfo",
-			"outputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getLotteryGenesis",
+		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "getWinnerAddress",
-			"outputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getTimeInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getWinnerAddress",
+		"outputs": [
 			{
 				"name": "",
 				"type": "address"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "getWinnerNumber",
-			"outputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getWinnerNumber",
+		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "winner",
-			"outputs": [
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getWinnerReimbursmentInfo",
+		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
-		}
-		];
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "winner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
 
 	//var test_address = 0x02168f676f5119239857a60c08a40e6136b3e64d77a6c9cf0433a1374cb887f7;
-	var test_address = '0xaedc987127c0c8dc40262d3ddf67be67418efee4';
+	var test_address = '0x6ee5c4599a2874ffdc2a9cd0715c78845eeeeca3';
 	
 	var web3 = window.web3 ;
 	//var Web3 = require('web3');
