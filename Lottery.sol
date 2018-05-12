@@ -3,8 +3,8 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery{
     
-    uint lotteryTime = 80;
-    uint purchaseTime = 40;
+    uint lotteryTime = 400;
+    uint purchaseTime = 200;
     
     uint lotteryGenesis;
     address winnerAddress;
@@ -153,7 +153,11 @@ contract Lottery{
     }
    
     function getTimeInfo() public view returns(uint){
-        return block.number - lotteryGenesis;
+        if( block.number - lotteryGenesis > lotteryTime ){
+            return block.number - lotteryGenesis - lotteryTime;
+        }else{
+            return block.number - lotteryGenesis;
+        }
     }
     function getLotteryGenesis() public view returns(uint){
         return lotteryGenesis;

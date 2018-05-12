@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    var test_abi = [
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "val",
+        "type": "bytes32"
+      }
+    ],
+    "name": "purchase",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "N",
+        "type": "uint256"
+      }
+    ],
+    "name": "reveal",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getBalance",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getBlockNumber",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "N",
+        "type": "uint256"
+      },
+      {
+        "name": "adr",
+        "type": "address"
+      }
+    ],
+    "name": "getHashValue",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getLotteryCounter",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getLotteryGenesis",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getTimeInfo",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getWinnerAddress",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getWinnerNumber",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getWinnerReimbursmentInfo",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "winner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  }
+];
+  	//var test_address = 0x02168f676f5119239857a60c08a40e6136b3e64d77a6c9cf0433a1374cb887f7;
+  	var test_address = '0x2ccfe852f7289946c08566783688b3655d6bfc7c';
+
+  	var web3 = window.web3 ;
+  	//var Web3 = require('web3');
+  	window.addEventListener('load', function() {
+
+  		//web3 = require('web3');
+
+  		if (typeof web3 !== 'undefined') {
+   			// Use Mist/MetaMask's provider
+   			web3 = new Web3(web3.currentProvider);
+   			console.log('web3 calisti abicim')
+   			console.log(web3.version)
+   		} else {
+   			console.log('No web3? You should consider trying MetaMask!')
+   			// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+   			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+   		}
+   	} ) ;
+  	var account = web3.eth.accounts[0];
+  	var accountInterval = setInterval(function() {
+  		if (web3.eth.accounts[0] !== account) {
+  			account = web3.eth.accounts[0];
+  		}
+  	}, 100);
+  	function getaddrbalance() {
+  		var fromaddr = account ;
+  		rc = web3.eth.getBalance(fromaddr,function(error, result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("status").innerHTML = "Balance:" + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		}) ;
+  	}
+  	// new koymayacaksin basina
+  	var lottery = web3.eth.contract(test_abi).at(test_address);
+  	function getBlockNumber(){
+  		lottery.getBlockNumber(function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("get_block_number").innerHTML = "Block Number: " + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		});
+  	}
+  	function getLotteryGenesis(){
+  		lottery.getLotteryGenesis(function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("get_lottery_genesis").innerHTML = "Lottery Genesis: " + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		});
+  	}
+  	function getTimeInfo(){
+      console.log("get_time geldi");
+      lottery.getTimeInfo(function(error,result){
+
+       if(!error) {
+        var stat = JSON.stringify(result);
+        document.getElementById("get_time").innerHTML = "Time info : " + stat ;
+      }
+      else {
+        console.error(error);
+      }
+    });
+    }
+    function getHashValue(){
+      var number = document.getElementById("get_hash_n").value;
+  		//var address = document.getElementById("get_hash_address").value;
+  		var address = account;
+  		lottery.getHashValue(number,address,function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("get_hash").innerHTML = "Your hash Value : " + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		});
+  	}
+  	function getBalance(){
+  		lottery.getBalance(function(error,result){
+  			console.log("balance function ici burasi ");
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("balance").innerHTML = "Contract Balance : " + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		});
+  	}
+  	function getWinnerAddress(){
+  		lottery.getWinnerAddress(function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("get_winner_address").innerHTML = "Current Winner Address : " + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		});
+  	}
+  	function getWinnerNumber(){
+  		lottery.getWinnerNumber(function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("get_winner_number").innerHTML = "Current Winner Number : " + stat ;
+  			}
+  			else {
+  				console.error(error);
+  			}
+  		});
+  	}
+    function getWinnerReimbursmentInfo(){
+      lottery.getWinnerReimbursmentInfo(function(error,result){
+        if(!error) {
+          var stat = JSON.stringify(result);
+          document.getElementById("get_winner_reimbursment_info").innerHTML = "You can withdraw : " + stat + " amount of wei";
+        }
+        else {
+          console.error(error);
+        }
+      });
+    }
+    function getLotteryCounter(){
+      lottery.getLotteryCounter(function(error,result){
+        if(!error) {
+          var stat = JSON.stringify(result);
+          document.getElementById("get_lotery_counter").innerHTML = "Now " + stat + "th lottery is playing";
+        }
+        else {
+          console.error(error);
+        }
+      });
+    }
+
+  	function purchase(){
+  		var hashed_value = document.getElementById("purchase_hash").value;
+  		var amount = document.getElementById("purchase_amount").value;
+  		var value_finney = window.web3.toWei(amount,'finney');
+  		lottery.purchase(hashed_value,{from:account,to:test_address,value:value_finney,gas:2000000},function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("purchase_result").innerHTML = "Purchase Result : " + stat ;
+  				console.log("gonderdik haci");
+  			}
+  			else {
+  				var err = JSON.stringify(error);
+  				document.getElementById("purchase_result").innerHTML = "Purchase Result : " + err;
+  				console.error(error);
+  				console.log("gonderemedik haci");
+  			}
+  		});
+  	}
+  	function reveal(){
+  		var reveal_number = document.getElementById("reveal_number").value;
+  		lottery.reveal(reveal_number,function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  				document.getElementById("reveal_result").innerHTML = "Reveal Result : " + stat ;
+  			}
+  			else {
+  				var err = JSON.stringify(error);
+  				document.getElementById("purchase_result").innerHTML = "Reveal Result : " + err;
+  				console.error(error);
+  			}
+  		});
+  	}
+  	function withdraw(){
+  		lottery.withdraw(function(error,result){
+  			if(!error) {
+  				var stat = JSON.stringify(result);
+  			}
+  			else {
+  				var err = JSON.stringify(error);
+  				console.error(error);
+  			}
+  		});
+  	}
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>CmpE 483 Project 2</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/heroic-features.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Browser Transactions</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Group ZAUM
+              <span class="sr-only">(current)</span>
+            </a>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Jumbotron Header -->
+      <header class="jumbotron my-4">
+        <h1 class="display-3">Welcome to our CmpE 483 Project</h1>
+      </header>
+
+      <div class="card my-4">
+        <h5 class="card-header">PURCHASE</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <p class="card-text">Amount of Finney You'd like to send </p>
+              <p id="purchase_result" class="card-text"> </p>
+              <textarea id="purchase_amount" style="overflow:hidden" rows="1" cols="3"></textarea> 
+              <p class="card-text"> Your hashed value: </p>
+              <textarea id="purchase_hash" style="overflow:hidden" rows="1" cols="100"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-danger" onclick="purchase()">Purchase</button>
+          </form>
+        </div>
+      </div>
+      <div class="card my-4">
+        <h5 class="card-header">REVEAL</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <p  class="card-text"> Reveal Number, send Reveal Number you choose (Note that you must send these numbers in the order of purchase)</p>
+              <p  class="card-text"> Your Original Lottery Number: </p>
+              <p id="reveal_result" class="card-text"></p>
+              <textarea id="reveal_number" style="overflow:hidden" rows="1" cols="100"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-danger" onclick="reveal()">Reveal</button>
+          </form>
+        </div>
+      </div>
+      <div class="card my-4">
+        <h5 class="card-header">WITHDRAW</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <p><strong>Withdraw method, when you click withdraw button if your number has won you get withdraw of money.</strong></p>
+              
+              </div>
+
+            <button type="submit" class="btn btn-danger" onclick="withdraw()">Withdraw</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card my-4">
+        <h5 class="card-header">Your Hashed Value (choose a number and it will hash it according to your account address)</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <p id="get_hash" class="card-text"> Enter your lottery number</p>
+              <textarea id="get_hash_n" class="form-control" rows="1" columns="5" style="overflow:hidden"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" onclick="getHashValue()">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Page Features -->
+      <div class="row text-center">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Metamask Account Balance</h4>
+              <p id="status"class="card-text">When you click Get Balance button, balance of the account will be retrieved. (in wei form)</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getaddrbalance()">Get It</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Block Number</h4>
+              <p id="get_block_number"class="card-text">Get block number method returns block number of contract</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getBlockNumber()">Get It</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Time Info</h4>
+              <p id="get_time" class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getTimeInfo()">Get It</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Lottery Genesis</h4>
+              <p id="get_lottery_genesis"class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getLotteryGenesis()">Get It</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row text-center">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Contract Balance</h4>
+              <p id="balance"class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getBalance()">Get It</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Winner Address</h4>
+              <p id="get_winner_address"class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getWinnerAddress()">Get It</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Winner Number</h4>
+              <p id="get_winner_number" class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getWinnerNumber()">Get It</a>
+            </div>
+          </div>
+        </div>
+         <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Lottery Count</h4>
+              <p  class="card-text"> Learn which lottery is playing now </p>
+              <p id="get_lotery_counter" class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getLotteryCounter()">Get It</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Get Winner Reimbursment Info</h4>
+              <p  class="card-text"> Learn If your account has won the lottery or how much money you can withdraw (in wei)</p>
+              <p id="get_winner_reimbursment_info" class="card-text"></p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary" onclick="getWinnerReimbursmentInfo()">Get It</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Korhan Çağın Geboloğlu-Salih Sevgican-Ahmet Buğrahan Taşdan 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+  </html>
