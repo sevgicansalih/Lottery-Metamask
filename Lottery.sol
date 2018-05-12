@@ -3,19 +3,21 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery{
     
-    uint lotteryTime = 40;
-    uint purchaseTime = 20;
+    uint lotteryTime = 8;
+    uint purchaseTime = 4;
     
     uint lotteryGenesis;
     address winnerAddress;
     uint public winner = 0;
+    uint lotteryCounter = 0;
+
 
     mapping(address=>Ticket[]) tickets;
     mapping(address=> bool) is_valid;
     mapping(address=>uint) ticket_order;
     mapping(uint=>address) ticketOwner;
     mapping(address=>uint) winnerReimbursment; 
-    
+    mapping(uint=>uint) lotteryBalance; //kacinci lotteryde ne kadar para gelmis onu tutuyor
     function Lottery() public{
         lotteryGenesis=block.number; // ilk contract creation zamaninda bir fark olusuyor onu egale etmek icin +1 yapiyoruz
     }
@@ -35,6 +37,9 @@ contract Lottery{
         }else{
             if( block.number - lotteryGenesis == lotteryTime){
                 lotteryGenesis = block.number;
+                winner = 0;
+                lotteryCounter += 1;
+
             }
             if( block.number - lotteryGenesis <= purchaseTime){
                 //TODO: create ticket, map to its adress
@@ -48,8 +53,7 @@ contract Lottery{
                 }
                 t.ticket_hash = val;
                 tickets[msg.sender].push(t);
-                ticket_order[msg.sender] = 0;
-                
+
             }
             return "Purchase Successful";
         }
@@ -57,14 +61,25 @@ contract Lottery{
     }
     
     function withdraw() public payable returns (string){
+        string memory res = "hello";
         if(winnerReimbursment[msg.sender] == 0){
             throw;
-            return "You are not allowed to withdraw";
+            res = "You are not allowed to withdraw";
         }else{
             uint amount = winnerReimbursment[msg.sender];
             msg.sender.transfer(amount);
-            return "Withdraw is Successful";
+            winnerReimbursment[msg.sender] = winnerReimbursment[msg.sender]- amount;
+            res = "Withdraw is Successful";
         }
+        if( block.number - lotteryGenesis == lotteryTime ){
+            // lottery time control
+            lotteryGenesis = block.number;
+            lotteryCounter += 1;
+            winner = 0;
+
+
+        }
+        return res;
     }
    
    function reveal(uint N) public payable returns (string){
@@ -81,7 +96,6 @@ contract Lottery{
                 }else{
                     tickets[msg.sender][ticket_order[msg.sender]].isValidTicket = false;
                     result = "Your number is not valid, sorry :( ";
-                    
                 }
                 tickets[msg.sender][ticket_order[msg.sender]].N=N;
                 ticketOwner[N]=msg.sender;
@@ -100,19 +114,33 @@ contract Lottery{
                         winnerTicket = tickets[winnerAddress][i];
                     }
                 }
-                if(winnerTicket.tip==1){
-                    winnerReimbursment[winnerAddress]+=address(this).balance / 2;
-                }else if(winnerTicket.tip==2){
-                    winnerReimbursment[winnerAddress]+=address(this).balance / 4;
-                }else if(winnerTicket.tip==3){
-                    winnerReimbursment[winnerAddress]+=address(this).balance / 8;
+                
+                //check lottery balance
+                if(lotteryCounter == 0){
+                    lotteryBalance[lotteryCounter] = address(this).balance;
+                }else{
+                    lotteryBalance[lotteryCounter] = address(this).balance - lotteryBalance[lotteryCounter-1];
                 }
-               result = "Winner has been decided";
+                
+                if(winnerTicket.tip==1){
+                    winnerReimbursment[winnerAddress]+=lotteryBalance[lotteryCounter] / 2;
+                }else if(winnerTicket.tip==2){
+                    winnerReimbursment[winnerAddress]+=lotteryBalance[lotteryCounter] / 4;
+                }else if(winnerTicket.tip==3){
+                    winnerReimbursment[winnerAddress]+=lotteryBalance[lotteryCounter] / 8;
+                }
+                //reset winner number
+                winner = 0;
+                lotteryCounter += 1;
+                result = "Winner has been decided";
                
            }
            return result;
    }
    
+   function getLotteryCounter() public view returns (uint){
+       return lotteryCounter;
+   }
     function getBlockNumber() public view returns  (uint256){
         return block.number;
     }   
@@ -135,6 +163,9 @@ contract Lottery{
     
     function getHashValue(uint N,address adr) public view returns(bytes32){
         return keccak256(N,adr);
+    }
+    function getWinnerReimbursmentInfo() public view returns (uint){
+        return winnerReimbursment[msg.sender];
     }
 
   

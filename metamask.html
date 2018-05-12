@@ -267,8 +267,6 @@
 	}
 	function getBalance(){
 		lottery.getBalance(function(error,result){
-			console.log("balance function ici burasi ");
-
 			if(!error) {
 				var stat = JSON.stringify(result);
 				document.getElementById("balance").innerHTML = "Contract Balance : " + stat ;
@@ -396,21 +394,21 @@
 
 	<p><strong>Get Hash Value Method</strong></p>
 	<form>
-		<p> Your Lottery Number : <textarea id="get_hash_n" rows="1" cols="10"></textarea> Your Account Addresss : <textarea id="get_hash_address" rows="1" cols="100"></textarea></p>
+		<p> Your Lottery Number : <textarea id="get_hash_n" style="overflow:hidden" rows="1" cols="10"></textarea> Your Account Addresss : <textarea id="get_hash_address" style="overflow:hidden" rows="1" cols="100"></textarea></p>
 	</form>
 	<button onclick="getHashValue()">getHashValue</button>
 	<p id="get_hash"></p>
 
 	<p><strong>Purchase method, send your hashed value</strong></p>
 	<form>
-		<p> Amount of Finney You'd like to send <textarea id="purchase_amount" rows="1" cols="3"></textarea> Your hashed value: <textarea id="purchase_hash" rows="1" cols="100"></textarea>  </p>
+		<p> Amount of Finney You'd like to send <textarea id="purchase_amount" style="overflow:hidden" rows="1" cols="3"></textarea> Your hashed value: <textarea id="purchase_hash" style="overflow:hidden" rows="1" cols="100"></textarea>  </p>
 	</form>
 	<button onclick="purchase()">Purchase</button>
 	<p id="purchase_result"></p>
 
 	<p><strong>Reveal Number, send Reveal Number you choose</strong></p>
 	<form>
-		<p>Your Original Lottery Number: <textarea id="reveal_number" rows="1" cols="100"></textarea> </p>
+		<p>Your Original Lottery Number: <textarea id="reveal_number" style="overflow:hidden" rows="1" cols="100"></textarea> </p>
 	</form>
 	<button onclick="reveal()">Reveal</button>
 	<p id="reveal_result"></p>
@@ -424,7 +422,3 @@
 
 </body>
 </html>
-
-Salih Sevgican 
-Bogazici University
-Computer Engineering
