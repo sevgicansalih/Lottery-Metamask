@@ -46,6 +46,10 @@
 The aim of this project is to demonstrate how a smart contract in Solidity\cite{Solidity} can be used by any ordinary user who do not have a strong background in technology . In this course, how a smart contract can be implemented and how can we build a frontend for our contract have been covered and simply in this project, we need to code what we have learnt in this class. To be able to finish the project, we need to find a way to combine a design and our first project code. The former project was related to decentralization of autonomous lottery. To satisfy the requirements of this project, we need to implement a frontend that helps us to test our environment. We need to focus on the solving defects in first project project, design a solid web based user interface and make the connection between contract and frontend. However, before starting deep into the details of how we handled the project, to remember what is the requirements in this project would be great idea to consider. \\ 
 \section{Definition}
 An autonomous decentralized lottery based on smart contract which distributes specified types of tickets for a given time interval and retrieves different types of winners for this given time range and after then this, repeats the same idea next timeline. There are some requirements that must be satisfied to finish the project. This is the former project definition and this project still dependson this. In this project, we need to implement a system that helps user to play with our contract and by doing this, we build visual test environment. On the other hand, we need to use some other tools. The most significant one is Brave\cite{Brave} which is a web browser with many available resources for blockchain-based tools. The second one is a third party application that help the user to use Etherium-based blockchain system easily, which is called as Metamask\cite{Metamask}. Finally, we should be able to test our system on a network called as Ropsten Test Network\cite{Ropsten}. 
+\section{How to Run}
+To run the project , you should have installed nodejs, 'web3' library and 'express' by using npm. You can install web3 1.0 version however our metamask is using web3 0.2. When you have installed required dependencies in the project folder type 'node myserver.js'. Then in your metamask installed browser (Connected to Ropsten test net), open remix solidity first, deploy Lottery.sol file to ropsten network, allow transaction through metamask , then wait for deployment. After deployment, copy abi and paste it under index.html, to 'test_abi' variable, do the same for deployment address, paste deployment address to 'test_address' variable. 
+Lastly, from your browser enter the URL: localhost:8081/index.html , now you're ready to test.
+
 \section{Checklist}
 What project expect us to do can be seperated in three part and totally 8 main specialities should be added to that system. What they are;
 \begin{itemize}
@@ -113,7 +117,7 @@ What project expect us to do can be seperated in three part and totally 8 main s
 		\subsection{Withdrawing}
 		In the revealing phase if a ticket owner gains a right to withdraw, reimbursement map in the code has the address and the amount of gas that needs to be sent. If sender's ticket number has won the lottery then withdraw function returns required amount of money. 
 	 \section{Updates}
-		Salihe sor ne değişti
+	 	Unlike the first project now we hold the count of lotteries. All the lottery money now is seperated, when a lottery revealed, the winner can withdraw money gathered in that lottery's purchase phase. In this project, you should copy and paste ABI and contract deployment address into index.html file in 'test_abi' and 'test_address'.
 	\chapter{Visualization Part}
 		There are many options in the market for creating a beautiful web sides. We had to choose one of them for this project. We started with investigating React\cite{React} which is javascript-based web and mobile cross platform. We could use this but it seems to be a waste of time. That's why, we choose a simple and useful bootstrap structure for this project which provides an elegant user interface for user. For this project, we combined two example view that can be founded in github and we just took it and customised options the way that we need to. We successfully finished this part. 
 		\subsection{Customisation}
@@ -139,7 +143,7 @@ What project expect us to do can be seperated in three part and totally 8 main s
 		
 		hash : 0x5633db22326de9f1587f5badbf225727243bf43db44d438c1bae8ab9cb3b5af8
 
-		address : 0x14723a09acff6d2a60dcdf7aa4aff308fddc160c
+		address : 0x4b0897b0513fdc7c541b6d9d7e929c4e5364d2db
 		
 		Ticket num:4 
 		
