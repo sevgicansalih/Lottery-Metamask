@@ -1,0 +1,19 @@
+1.Hesaplarin gondermek istedigi numaralar icin hash value'ler alindi ve kaydedildi
+
+2. Purchase yapildi
+
+3. Get functionlar ile contract bilgileri ogrenildi, contract'daki balance 32 finney olarak gozukuyor.
+
+4.Reveal Phase: Her hesabin sectigi numara reveal  methoduna gonderildi
+
+5. Winner Number belirlendi (Simdiye kadarki valid numaralarin XOR'lu hali)
+
+6. Reveal phase suresi bitince, reveal winner mehodu cagirildi ve kazanan address belirlendi.
+
+7. Get Winner Address methodunda kazanan gosterildi.
+
+8. Accountun parasi gosterildi, account addresi ve kazanan address ayni
+
+9. Withdraw cagirildi
+
+10. Para hesaba eklendi
