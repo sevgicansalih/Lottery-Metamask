@@ -5,62 +5,18 @@
   <script>
     var test_abi = [
   {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "val",
-        "type": "bytes32"
-      }
-    ],
-    "name": "purchase",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "N",
-        "type": "uint256"
-      }
-    ],
-    "name": "reveal",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
+    "constant": true,
     "inputs": [],
-    "name": "withdraw",
+    "name": "getWinnerAddress",
     "outputs": [
       {
         "name": "",
-        "type": "string"
+        "type": "address"
       }
     ],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "constant": true,
@@ -79,7 +35,67 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "getLotteryCounter",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "getBlockNumber",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getLotteryGenesis",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "revealWinner",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getTimeInfo",
     "outputs": [
       {
         "name": "",
@@ -116,62 +132,6 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "getLotteryCounter",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getLotteryGenesis",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getTimeInfo",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getWinnerAddress",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
     "name": "getWinnerNumber",
     "outputs": [
       {
@@ -181,6 +141,34 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "N",
+        "type": "uint256"
+      }
+    ],
+    "name": "reveal",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "val",
+        "type": "bytes32"
+      }
+    ],
+    "name": "purchase",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -210,10 +198,16 @@
     "payable": false,
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   }
 ];
   	//var test_address = 0x02168f676f5119239857a60c08a40e6136b3e64d77a6c9cf0433a1374cb887f7;
-  	var test_address = '0x2ccfe852f7289946c08566783688b3655d6bfc7c';
+  	var test_address = '0x1a6df96e3021b8330e5d5c465e2bbf5bfbea1fdf';
 
   	var web3 = window.web3 ;
   	//var Web3 = require('web3');
@@ -390,7 +384,20 @@
   			}
   		});
   	}
-  	function withdraw(){
+    
+  	function revealWinner(){
+      lottery.revealWinner(function(error,result){
+        if(!error) {
+          var stat = JSON.stringify(result);
+          document.getElementById("reveal_winner_result").innerHTML = "Winner Address : " + stat;
+        }
+        else {
+          var err = JSON.stringify(error);
+          console.error(error);
+        }
+      });
+    }
+    function withdraw(){
   		lottery.withdraw(function(error,result){
   			if(!error) {
   				var stat = JSON.stringify(result);
@@ -474,6 +481,19 @@
             </div>
 
             <button type="submit" class="btn btn-danger" onclick="reveal()">Reveal</button>
+          </form>
+        </div>
+      </div>
+      <div class="card my-4">
+        <h5 class="card-header">REVEAL WINNER</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <p  class="card-text"> When lottery tour completed, reveals winner address and sets Lotter Genesis to zero. New lottery starts with this function</p>
+              <p id="reveal_winner_result" class="card-text"></p>
+            </div>
+
+            <button type="submit" class="btn btn-danger" onclick="revealWinner()">Reveal Winner</button>
           </form>
         </div>
       </div>

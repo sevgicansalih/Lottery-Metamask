@@ -3,8 +3,8 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery{
     
-    uint lotteryTime = 400;
-    uint purchaseTime = 200;
+    uint lotteryTime = 20;
+    uint purchaseTime = 10;
     
     uint lotteryGenesis;
     address winnerAddress;
@@ -31,16 +31,16 @@ contract Lottery{
     /*
     *bytes32 val either random hash code or random number N, depending on the block number.
     */
-    function purchase(bytes32 val) public payable returns (string){
+    function purchase(bytes32 val) public payable{
         if(msg.value!=8 finney && msg.value!=4 finney && msg.value!=2 finney){
             revert();
         }else{
-            if( block.number - lotteryGenesis >= lotteryTime){
+            /*if( block.number - lotteryGenesis >= lotteryTime){
                 lotteryGenesis = block.number;
                 winner = 0;
                 lotteryCounter += 1;
 
-            }
+            }*/
             if( block.number - lotteryGenesis <= purchaseTime){
                 //TODO: create ticket, map to its adress
                 Ticket memory t;
@@ -55,33 +55,26 @@ contract Lottery{
                 tickets[msg.sender].push(t);
 
             }
-            return "Purchase Successful";
         }
-        return "Purchase is not successful";
     }
     
-    function withdraw() public payable returns (string){
-        string memory res = "hello";
+    function withdraw() public payable{
         if(winnerReimbursment[msg.sender] == 0){
             throw;
-            res = "You are not allowed to withdraw";
         }else{
             uint amount = winnerReimbursment[msg.sender];
             msg.sender.transfer(amount);
             winnerReimbursment[msg.sender] = winnerReimbursment[msg.sender]- amount;
-            res = "Withdraw is Successful";
         }
-        if( block.number - lotteryGenesis >= lotteryTime ){
+        /*if( block.number - lotteryGenesis >= lotteryTime ){
             // lottery time control
             lotteryGenesis = block.number;
             lotteryCounter += 1;
             winner = 0;
-        }
-        return res;
+        }*/
     }
    
-   function reveal(uint N) public payable returns (string){
-        string memory result = "empty";
+   function reveal(uint N) public payable {
             //TODO burdaki if'te sadece Ticket'larin is_valid kismini false yapacaksin, senderin degil
             if( block.number - lotteryGenesis > purchaseTime){
                 //TODO: create ticket, map to its adress
@@ -90,18 +83,19 @@ contract Lottery{
                 if(tickets[msg.sender][ticket_order[msg.sender]].ticket_hash == shah){
                    tickets[msg.sender][ticket_order[msg.sender]].isValidTicket = true; 
                     winner = winner ^ N; // wineer global numarasi ile gelen ticket XOR laniyor.
-                    result = "Ÿour number has been retrieved, Good Luck :) ";
                 }else{
                     tickets[msg.sender][ticket_order[msg.sender]].isValidTicket = false;
-                    result = "Your number is not valid, sorry :( ";
                 }
                 tickets[msg.sender][ticket_order[msg.sender]].N=N;
                 ticketOwner[N]=msg.sender;
                 ticket_order[msg.sender]+=1;
                 
             }
-            // bu if revealin son adimi winner belirleme
-           if( block.number - lotteryGenesis >= lotteryTime ){
+           
+   }
+   function revealWinner() public payable{
+       // bu if revealin son adimi winner belirleme
+       if( block.number - lotteryGenesis >= lotteryTime ){
                 lotteryGenesis = block.number;
                //TODO is_valid false olmayan ticketlar arasinda Nleri XOR yapacaksin ve withdraw icin onay vereceksin
                 winnerAddress = ticketOwner[winner];
@@ -130,10 +124,7 @@ contract Lottery{
                 //reset winner number
                 winner = 0;
                 lotteryCounter += 1;
-                result = "Winner has been decided";
-               
            }
-           return result;
    }
    
    function getLotteryCounter() public view returns (uint){
@@ -153,11 +144,12 @@ contract Lottery{
     }
    
     function getTimeInfo() public view returns(uint){
-        if( block.number - lotteryGenesis > lotteryTime ){
+        /*if( block.number - lotteryGenesis > lotteryTime ){
             return block.number - lotteryGenesis - lotteryTime;
         }else{
             return block.number - lotteryGenesis;
-        }
+        }*/
+        return block.number - lotteryGenesis;
     }
     function getLotteryGenesis() public view returns(uint){
         return lotteryGenesis;
